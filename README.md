@@ -1,0 +1,2 @@
+# Full-Eccomerce-Website-in-PHP-PDO-MYSQL
+This is Full Ecommerce website in PHP PDO . with functional dashboard and amazing frontend Design in which category are create delete update , Subcategory are create delete update ,Products are create delete update , Orders are show to admin Only that who order which product . Clone this repo and use it in your practice work if there is any mistake please change it and push it in the original repository thanks.
