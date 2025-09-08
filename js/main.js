@@ -164,5 +164,38 @@
 			handle ? priceInputMax.value = value : priceInputMin.value = value
 		});
 	}
+ 
+ 	/////////////////////////////////////////
+
+ 	// Reveal-on-scroll for key index elements (no HTML changes required)
+ 	var revealTargets = document.querySelectorAll('.product, .shop, #hot-deal .hot-deal, .newsletter');
+ 	if (revealTargets && revealTargets.length) {
+ 		revealTargets.forEach(function(el){
+ 			el.classList.add('reveal-on-scroll');
+ 		});
+
+ 		var io = new IntersectionObserver(function(entries){
+ 			entries.forEach(function(entry){
+ 				if (entry.isIntersecting) {
+ 					entry.target.classList.add('is-visible');
+ 					io.unobserve(entry.target);
+ 				}
+ 			});
+ 		}, { threshold: 0.15 });
+
+ 		revealTargets.forEach(function(el){ io.observe(el); });
+ 	}
+
+ 	// Enable Bootstrap tooltips if available
+ 	try {
+ 		if (typeof bootstrap !== 'undefined' && bootstrap.Tooltip) {
+ 			var tooltipTriggerList = [].slice.call(document.querySelectorAll('[data-bs-toggle="tooltip"]'))
+ 			tooltipTriggerList.forEach(function (tooltipTriggerEl) {
+ 				new bootstrap.Tooltip(tooltipTriggerEl)
+ 			})
+ 		} else if ($.fn.tooltip) {
+ 			$('[data-toggle="tooltip"]').tooltip();
+ 		}
+ 	} catch (e) {}
 
 })(jQuery);

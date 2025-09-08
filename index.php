@@ -88,61 +88,70 @@
 						<div class="row mb-5">
 							<!-- product -->
 							<?php
-									 foreach($result as $row)
-									 {
-                                       $images = $row['images'];  
-									   $new_images = explode(",", $images);
-                                    							
-									?>
-							<div class="col-md-3 col-xs-6">
-							<a href="product.php?p_id=<?php echo $row['id']?>">	
-							<div class="product">
-									<div class="product-img">
-										<img width="100px" height="280px" src="uploads/<?php echo $new_images[1]?>" alt="">
-										<div class="product-label">
-											<?php $percent = ( ($row['p_discount'] - $row['p_price'] ) * 100) / $row['p_discount'];?>
-											<span class="sale"><?php echo ceil($percent);?>%</span>
-										</div>
-									</div>
-									<div class="product-body">
-										<h3 class="product-name"><a href="product.php?p_id=<?php echo $row['id']?>"><?php echo $row['p_name']?></a></h3>
-										<h4 class="product-price">Rs : <?php echo $row['p_price']?> <del class="product-old-price">Rs : <?php echo $row['p_discount']?></del></h4>
-									<?php
-									$p_id = $row['id'];
-									$result1 = $product->total_reviews($p_id);
-									$result2=round($result1['avg']);
-									for ($i=1; $i < 6; $i++) { 
-										if($result2 >= $i)
-										 {
-											echo '<span value="'.$i.'"></span><i style="color:red;" class="fa fa-star checked"></i>';
-										 }
-										else
-										  {
-                                            echo '<i style=";" class="fa fa-star checked"></i>';
-										  }
+								foreach($result as $row)
+								{
+									$images = $row['images'];  
+									$new_images = explode(",", $images);
+
+									// Fix: Check if at least one image exists, fallback to first if not
+									$product_image = '';
+									if (isset($new_images[1]) && !empty($new_images[1])) {
+										$product_image = $new_images[1];
+									} elseif (isset($new_images[0]) && !empty($new_images[0])) {
+										$product_image = $new_images[0];
+									} else {
+										$product_image = 'default.png'; // fallback image
 									}
-									?>
-										<div class="product-btns">
-											<a href="product.php?p_id=<?php echo $row['id']?>" class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp"></span></a>
+							?>
+							<div class="col-md-3 col-xs-6">
+								<a href="product.php?p_id=<?php echo $row['id']?>">	
+									<div class="product">
+										<div class="product-img">
+											<img width="100px" height="280px" src="uploads/<?php echo htmlspecialchars($product_image); ?>" alt="">
+											<div class="product-label">
+												<?php 
+													// Fix: Prevent division by zero
+													if ($row['p_discount'] > 0) {
+														$percent = ( ($row['p_discount'] - $row['p_price'] ) * 100) / $row['p_discount'];
+														$percent = ceil($percent);
+													} else {
+														$percent = 0;
+													}
+												?>
+												<span class="sale"><?php echo $percent;?>%</span>
+											</div>
 										</div>
+										<div class="product-body">
+											<h3 class="product-name"><a href="product.php?p_id=<?php echo $row['id']?>"><?php echo htmlspecialchars($row['p_name'])?></a></h3>
+											<h4 class="product-price">Rs : <?php echo htmlspecialchars($row['p_price'])?> <del class="product-old-price">Rs : <?php echo htmlspecialchars($row['p_discount'])?></del></h4>
+											<?php
+												$p_id = $row['id'];
+												$result1 = $product->total_reviews($p_id);
+												$result2 = isset($result1['avg']) ? round($result1['avg']) : 0;
+												for ($i=1; $i < 6; $i++) { 
+													if($result2 >= $i) {
+														echo '<span value="'.$i.'"></span><i style="color:red;" class="fa fa-star checked"></i>';
+													} else {
+														echo '<i class="fa fa-star checked"></i>';
+													}
+												}
+											?>
+											<div class="product-btns">
+												<a href="product.php?p_id=<?php echo $row['id']?>" class="quick-view"><i class="fa fa-eye"></i><span class="tooltipp"></span></a>
+											</div>
+										</div>
+										<!-- <div class="add-to-cart">
+											<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
+										</div> -->
 									</div>
-									<!-- <div class="add-to-cart">
-										<button class="add-to-cart-btn"><i class="fa fa-shopping-cart"></i> add to cart</button>
-									</div> -->
-								</div>
+								</a>
 							</div>
-							</a>
 							<?php
-							 }
+								}
 							?>
 							<!-- /product -->
-
-							
 						</div>
 						<!-- /store products -->
-
-						
-					     
 					</div>
 					<!-- Products tab & slick -->
 				</div>
@@ -223,15 +232,15 @@
 									<?php
 									$p_id = $row['product_id'];
 									$result3 = $product->total_reviews($p_id);
-									$result4=round($result1['avg']);
+									$result4=round($result3['avg']);
 									for ($i=1; $i < 6; $i++) { 
-										if($result2 >= $i)
+										if($result4 >= $i)
 										 {
 											echo '<span value="'.$i.'"></span><i style="color:red;" class="fa fa-star checked"></i>';
 										 }
 										else
 										  {
-                                            echo '';
+                                            echo '<i style=";" class="fa fa-star checked"></i>';
 										  }
 									}
 									?>
