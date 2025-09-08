@@ -101,7 +101,7 @@
 							<div class="header-logo">
 								<a href="index.php" class="logo">
 									<!-- <img src="./img/logo.png" alt=""> -->
-									<h2 class="logo_font mb-3"><i class="fa fa-shopping-cart"></i>       Zahid-Mart</h2>
+									<h2 class="logo_font mb-3"><i class="fa fa-shopping-cart"></i>Umar-Mart</h2>
 								</a>
 							</div>
 						</div>

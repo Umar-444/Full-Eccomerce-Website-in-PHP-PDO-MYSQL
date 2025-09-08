@@ -14,7 +14,7 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no">
-    <title>Zahid Mart | Dashboard </title>
+    <title>Umar Mart | Dashboard </title>
     <link rel="icon" type="image/x-icon" href="assets/img/favicon.ico"/>
     <link href="assets/css/loader.css" rel="stylesheet" type="text/css" />
     <script src="assets/js/loader.js"></script>
@@ -57,7 +57,7 @@
                     </a>
                 </li>
                 <li class="nav-item theme-text">
-                    <a href="index.php" class="nav-link"> Z - Mart </a>
+                    <a href="index.php" class="nav-link"> U - Mart </a>
                 </li>
             </ul>
 

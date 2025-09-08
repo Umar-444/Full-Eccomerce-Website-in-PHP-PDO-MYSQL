@@ -30,11 +30,16 @@
 								      <?php
 									   $cuser = new auth();
 										$categories = $cuser->select_cat();
+										$count = 0;
 										foreach($categories as $category)
 										{
+											if ($count >= 5) break;
 						                ?>
 									<li><a href="store.php?cat_id=<?php echo $category['id']?>"><?php echo $category['cat_name']?></a></li>
-									<?php }?>
+									<?php 
+											$count++;
+										} 
+									?>
 								</ul>
 							</div>
 						</div>
