@@ -1,6 +1,6 @@
 ## Full E-commerce Website (PHP, PDO, MySQL)
 
-Repository: `Full-Eccomerce-in-PHP-PDO-mySql`
+Repository: `Full-E-commerce-in-PHP-PDO-MySQL`
 
 A complete educational/demo e‑commerce website built with PHP (PDO) and MySQL, featuring a storefront and an admin panel with CRUD for products, categories, orders, users, and more. This project is intended for learning purposes and is not production‑ready without additional security hardening.
 
@@ -8,31 +8,6 @@ A complete educational/demo e‑commerce website built with PHP (PDO) and MySQL,
 - Frontend: `http://localhost/ecommerce`
 - Admin Panel: `http://localhost/ecommerce/admin`
 - Database schema: `Database SQL/db_shop.sql`
-
----
-
-## Table of Contents
-- Overview
-- Features
-- Tech Stack
-- Folder Structure
-- Getting Started
-  - Prerequisites
-  - Setup (Laragon / XAMPP)
-  - Database Import
-  - Configuration
-- Usage
-  - Frontend
-  - Admin Panel
-- Screenshots
-- Sample Data (Optional Seeders)
-- Architecture Notes
-- Security Notes (Read Me!)
-- Troubleshooting
-- Roadmap / Potential Improvements
-- Contribution
-- License
-- Contact & Support (CTA)
 
 ---
 
@@ -62,7 +37,6 @@ ecommerce/
   css/, js/, fonts/     # Frontend assets
   include/              # Frontend header/footer
   Database SQL/         # SQL dump (db_shop.sql)
-  screenshot/           # UI screenshots
   uploads/              # Uploaded product images
   index.php             # Homepage
   product.php           # Product details
