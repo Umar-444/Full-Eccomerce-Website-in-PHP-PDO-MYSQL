@@ -110,7 +110,7 @@
 						<!-- SEARCH BAR -->
 						<div class="col-md-6">
 							<div class="header-search">
-								<form action="./../admin/include/process.php">
+								<form action="admin/include/process.php">
 									<input class="input" name="search_input" placeholder="Search here">
 									<input type="submit" class="search-btn btn" name="search"  value="Search">
 								</form>
@@ -131,11 +131,11 @@
 								</div> -->
 								<!-- /Wishlist -->
 								<?php
-								if(isset($_SESSION['isClient'])){
+								if(isset($_SESSION['uid'])){
 								?> 
 								<!-- Cart -->
 								<div class="dropdown">
-									<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
+									<a href="checkout.php" class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
 										<i class="fa fa-shopping-cart"></i>
 										<span>Your Cart</span>
 										<div class="qty"><?php
@@ -184,6 +184,15 @@
 									</div>
 								</div>
 								<!-- /Cart -->
+								<?php } else { ?>
+								<!-- Cart (guest) -->
+								<div>
+									<a href="login.php">
+										<i class="fa fa-shopping-cart"></i>
+										<span>Your Cart</span>
+										<div class="qty">0</div>
+									</a>
+								</div>
 								<?php }?>
 								<!-- Menu Toogle -->
 								<div class="menu-toggle">
@@ -214,8 +223,7 @@
 					<!-- NAV -->
 					<ul class="main-nav nav navbar-nav">
 						<li class="active"><a href="index.php">Home</a></li>
-
-					
+						<li><a href="store.php">Store</a></li>
 					</ul>
 					<!-- /NAV -->
 				</div>

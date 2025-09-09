@@ -36,7 +36,7 @@ class auth extends database{
                   $_SESSION["uid"] = $control['id'];
                   $_SESSION["role"] = $control['role'];
                   $_SESSION['isClient'] = true;
-                header('location: ./../index.php');
+                header('location: ../../index.php');
               }
             }
       }
@@ -66,16 +66,18 @@ class auth extends database{
     
     // Function For Register New User   
 
-    public function registeruser($name ,$username ,$email ,$address ,$phone ,$password)
+    public function registeruser($name ,$username ,$email ,$address ,$phone ,$password, $city = '', $country = '')
     {
         
-        $sql = "INSERT INTO users(name,username,email,address,phone,password) VALUES (:name,:username,:email,:address,:phone,:password)";
+        $sql = "INSERT INTO users(name,username,email,address,city,country,phone,password) VALUES (:name,:username,:email,:address,:city,:country,:phone,:password)";
         $stmt = $this->conn->prepare($sql);
 
         $stmt->bindParam(':name', $name ,PDO::PARAM_STR);
         $stmt->bindParam(':username', $username ,PDO::PARAM_STR);
         $stmt->bindParam(':email', $email ,PDO::PARAM_STR);
         $stmt->bindParam(':address', $address ,PDO::PARAM_STR);
+        $stmt->bindParam(':city', $city ,PDO::PARAM_STR);
+        $stmt->bindParam(':country', $country ,PDO::PARAM_STR);
         $stmt->bindParam(':phone', $phone ,PDO::PARAM_STR);
         $stmt->bindParam(':password', $password ,PDO::PARAM_STR);
         $result = $stmt->execute();
@@ -89,15 +91,17 @@ class auth extends database{
 
          // Function For front-end Register New User   
 
-         public function front_end_registeruser($name ,$username ,$email ,$address ,$phone ,$password)
+         public function front_end_registeruser($name ,$username ,$email ,$address ,$phone ,$password, $city = '', $country = '')
          {
              
-             $sql = "INSERT INTO users(name,username,email,address,phone,password) VALUES (:name,:username,:email,:address,:phone,:password)";
+             $sql = "INSERT INTO users(name,username,email,address,city,country,phone,password) VALUES (:name,:username,:email,:address,:city,:country,:phone,:password)";
              $stmt = $this->conn->prepare($sql);
              $stmt->bindParam(':name', $name ,PDO::PARAM_STR);
              $stmt->bindParam(':username', $username ,PDO::PARAM_STR);
              $stmt->bindParam(':email', $email ,PDO::PARAM_STR);
              $stmt->bindParam(':address', $address ,PDO::PARAM_STR);
+             $stmt->bindParam(':city', $city ,PDO::PARAM_STR);
+             $stmt->bindParam(':country', $country ,PDO::PARAM_STR);
              $stmt->bindParam(':phone', $phone ,PDO::PARAM_STR);
              $stmt->bindParam(':password', $password ,PDO::PARAM_STR);
              $result = $stmt->execute();
@@ -730,21 +734,40 @@ class auth extends database{
                    public function add_to_cart_insertion($user_id,$product_id,$qty)
                    { 
                        
-                        $sql = "INSERT INTO cart(user_id,product_id,p_qty) VALUES(:user_id , :product_id , :qty)";
-                        $stmt = $this->conn->prepare($sql);
-                        $stmt->bindParam(':user_id',$user_id ,PDO::PARAM_INT);
-                        $stmt->bindParam(':product_id',$product_id ,PDO::PARAM_INT);
-                        $stmt->bindParam(':qty',$qty ,PDO::PARAM_INT);
-                        $result = $stmt->execute();
-                        if($result)
-                        {
-                          echo 'Your Product is Added to Cart';
-                        }
-                        else{
-                          echo 'Something went Wrong';
-                        }
+                      $normalizedQty = max(1, (int)$qty);
+                      // Check if item already exists in cart
+                      $checkSql = "SELECT id, p_qty FROM cart WHERE user_id = :user_id AND product_id = :product_id LIMIT 1";
+                      $checkStmt = $this->conn->prepare($checkSql);
+                      $checkStmt->bindParam(':user_id',$user_id ,PDO::PARAM_INT);
+                      $checkStmt->bindParam(':product_id',$product_id ,PDO::PARAM_INT);
+                      $checkStmt->execute();
+                      $existing = $checkStmt->fetch(PDO::FETCH_ASSOC);
 
-                    
+                      if ($existing) {
+                        $updateSql = "UPDATE cart SET p_qty = p_qty + :qty WHERE id = :id";
+                        $updateStmt = $this->conn->prepare($updateSql);
+                        $updateStmt->bindParam(':qty',$normalizedQty ,PDO::PARAM_INT);
+                        $updateStmt->bindParam(':id',$existing['id'] ,PDO::PARAM_INT);
+                        $ok = $updateStmt->execute();
+                        echo $ok ? 'Quantity updated in your cart' : 'Something went Wrong';
+                        return;
+                      }
+
+                      $sql = "INSERT INTO cart(user_id,product_id,p_qty) VALUES(:user_id , :product_id , :qty)";
+                      $stmt = $this->conn->prepare($sql);
+                      $stmt->bindParam(':user_id',$user_id ,PDO::PARAM_INT);
+                      $stmt->bindParam(':product_id',$product_id ,PDO::PARAM_INT);
+                      $stmt->bindParam(':qty',$normalizedQty ,PDO::PARAM_INT);
+                      $result = $stmt->execute();
+                      if($result)
+                      {
+                        echo 'Your Product is Added to Cart';
+                      }
+                      else{
+                        echo 'Something went Wrong';
+                      }
+
+                  
                    }
 
 

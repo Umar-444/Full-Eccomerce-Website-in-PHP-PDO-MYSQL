@@ -23,9 +23,11 @@
             $username = $cuser->test_input($_POST['username']);
             $email = $cuser->test_input($_POST['email']);
             $address = $cuser->test_input($_POST['address']);
+            $city = isset($_POST['city']) ? $cuser->test_input($_POST['city']) : '';
+            $country = isset($_POST['country']) ? $cuser->test_input($_POST['country']) : '';
             $phone = $cuser->test_input($_POST['phone']);
             $password = $cuser->test_input($_POST['password']);
-            $result = $cuser->registeruser($name ,$username ,$email ,$address ,$phone ,$password);
+            $result = $cuser->registeruser($name ,$username ,$email ,$address ,$phone ,$password, $city, $country);
         }
 
         // front-end Register User Code
@@ -36,9 +38,11 @@
             $username = $cuser->test_input($_POST['username']);
             $email = $cuser->test_input($_POST['email']);
             $address = $cuser->test_input($_POST['address']);
+            $city = isset($_POST['city']) ? $cuser->test_input($_POST['city']) : '';
+            $country = isset($_POST['country']) ? $cuser->test_input($_POST['country']) : '';
             $phone = $cuser->test_input($_POST['phone']);
             $password = $cuser->test_input($_POST['password']);
-            $result = $cuser->front_end_registeruser($name ,$username ,$email ,$address ,$phone ,$password);
+            $result = $cuser->front_end_registeruser($name ,$username ,$email ,$address ,$phone ,$password, $city, $country);
         }
 
 
@@ -416,6 +420,10 @@
 
               if(isset($_POST['Mode']) && $_POST['Mode'] == "formdata")
               {
+                 if (!isset($_SESSION['uid'])) {
+                   echo 'Please login to add items to your cart';
+                   exit;
+                 }
                  $user_id = $_SESSION['uid'];
                  $product_id = $cuser->test_input($_POST['product_id']);
                  $qty = $cuser->test_input($_POST['qty']);

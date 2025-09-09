@@ -97,7 +97,8 @@
 							<?php
 									$p_id = $row['id'];
 									$result1 = $product->total_reviews($p_id);
-									$result2=round($result1['avg']);
+									$avg = (float)($result1['avg'] ?? 0);
+									$result2 = (int)round($avg);
 									for ($i=1; $i < 6; $i++) { 
 										if($result2 >= $i)
 										 {
@@ -428,9 +429,10 @@
 									<?php
 									$p_id = $row['product_id'];
 									$result3 = $product->total_reviews($p_id);
-									$result4=round($result1['avg']);
+									$avgRec = (float)($result3['avg'] ?? 0);
+									$result4 = (int)round($avgRec);
 									for ($i=1; $i < 6; $i++) { 
-										if($result2 >= $i)
+										if($result4 >= $i)
 										 {
 											echo '<span value="'.$i.'"></span><i style="color:red;" class="fa fa-star checked"></i>';
 										 }
@@ -525,7 +527,7 @@
 		e.preventDefault();
 		$.ajax({
 			method: "POST",
-			url: "../admin/include/process.php",
+			url: "admin/include/process.php",
 			data: "Mode=formdata&" + $('#formdata').serialize(),
 			success: function (data) {
 				swal("Good Job!" , data , "success");
